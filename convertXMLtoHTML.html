@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<title>title</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="description" content="" />
+	<meta name="keywords" content="" />
+	<meta name="robots" content="index,follow" />
+	<link rel="stylesheet" type="text/css" href="styles.css" />
+	<script>
+	
+function loadFileToElement()
+{
+var selectedFile = document.getElementById('input').files[0];
+
+var reader = new FileReader();
+           reader.onload = function(e) {
+               readXml=e.target.result;
+               //console.log(readXml);
+               var parser = new DOMParser();
+               var doc = parser.parseFromString(readXml, "application/xml");
+               //console.log(doc);
+			   document.getElementById('source').value = readXml;
+			   
+
+let els = doc.querySelectorAll('*');
+
+var counter = 0;
+						els.forEach(function(element) {
+
+							console.log(element.tagName);
+						  element.classList.add(element.tagName);
+
+					if (element.getElementsByTagName("*").length>0){
+				var new_element = doc.createElement('div');
+					}else{
+				var new_element = doc.createElement('p');
+					}
+				var	old_attributes = element.attributes;
+				var	new_attributes = new_element.attributes;
+
+				// copy attributes
+				for(var i = 0, len = old_attributes.length; i < len; i++) {
+					new_attributes.setNamedItem(old_attributes.item(i).cloneNode());
+				}
+				
+// copy child nodes
+				do {
+					new_element.appendChild(element.firstChild);
+					
+				} 
+				while(element.firstChild);
+
+				// replace element
+				
+				element.parentNode.replaceChild(new_element, element);
+
+
+						  counter++;
+
+						});
+			   console.log(counter);
+
+
+
+			   
+			   document.getElementById('dest').value =  (new XMLSerializer()).serializeToString(doc);
+			   
+           }
+           reader.readAsText(selectedFile);
+		
+}
+	
+	</script>
+</head>
+
+<body onload="loadFileToElement('Romeo_and_Juliet.xml', 'source');">
+<form>
+<input type="file" id="input"/>
+<textarea id="source"></textarea>
+<textarea id="dest"></textarea>
+<input type="button" onclick="loadFileToElement()" value="load"/>
+</form>
+</body>
+</html>
