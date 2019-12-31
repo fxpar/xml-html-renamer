@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+    <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+    <title>Hello World!</title>
+  </head>
+  <body>
+<div id="scanned">
+</div>
+<hr>
+<form>
+<input type="file" id="input"/>
+<textarea id="source"></textarea>
+<textarea id="dest" rows="10"></textarea>
+<input type="button" id="load" value="load"/>
+</form>
+
+    <script src="./renderer.js"></script>
+  </body>
+</html>
